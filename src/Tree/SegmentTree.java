@@ -19,11 +19,6 @@ public class SegmentTree {
 
     private static class Node {
         int l, r, sum;
-
-        public Node(int l, int r) {
-            this(l, r, 0);
-        }
-
         public Node(int l, int r, int sum) {
             this.l = l;
             this.r = r;
@@ -67,7 +62,7 @@ public class SegmentTree {
     private static void build(int u, int l, int r) {
         if (l == r) tr[u] = new Node(l, r, a[l]);
         else {
-            tr[u] = new Node(l, r);
+            tr[u] = new Node(l, r, 0);
             int mid = (l + r) >> 1;
             build(u << 1, l, mid);
             build(u << 1 | 1, mid + 1, r);
