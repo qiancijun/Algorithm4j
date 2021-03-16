@@ -1,9 +1,6 @@
 package Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -13,58 +10,36 @@ import java.util.Arrays;
  */
 
 public class Test {
-    static final int N = 510, INF = 0x3f3f3f3f;
-    static int n, m;
-    static int[][] g = new int[N][N];
-    static int[] dist = new int[N];
-    static boolean[] st = new boolean[N];
-    public static void main(String[] args) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(System.out);
-
-        String[] s = in.readLine().split(" ");
-        n = Integer.parseInt(s[0]);
-        m = Integer.parseInt(s[1]);
-
-        for (int i = 1; i <= n; i++) {
-            Arrays.fill(g[i], INF);
-        }
-
-        while (m-- > 0) {
-            s = in.readLine().split(" ");
-            int u = Integer.parseInt(s[0]);
-            int v = Integer.parseInt(s[1]);
-            int w = Integer.parseInt(s[2]);
-            g[u][v] = Math.min(g[u][v], w);
-        }
-
-        int res = dijkstra();
-        if (res == -1) {
-            out.println(-1);
-        } else {
-            out.println(res);
-        }
-
-        in.close();
-        out.close();
+    public static void main(String[] args) throws Exception {
+        copy("src\\words.txt", "src\\cp.txt");
     }
 
-    private static int dijkstra() {
-        Arrays.fill(dist, INF);
-        dist[1] = 0;
-        for (int i = 0; i < n; i++) {
-            int t = -1;
-            for (int j = 1; j <= n; j++) {
-                if (!st[j] && (t == -1 || dist[j] < dist[t])) {
-                    t = j;
-                }
-            }
-            st[t] = true;
-            for (int j = 1; j <= n; j++) {
-                dist[j] = Math.min(dist[j], dist[t] + g[t][j]);
+    private static void copy(String src, String des) throws Exception {
+        File s = new File(src);
+        File d = new File(des);
+
+        FileInputStream in = new FileInputStream(s);
+        FileOutputStream out = new FileOutputStream(d);
+        byte[] buf = new byte[1024];
+
+        int len = -1;
+        while ((len = in.read(buf)) != -1) {
+            out.write(new String(buf, 0, len).getBytes("GBK"));
+        }
+    }
+
+    private static void showFiles(File file) {
+        if (!file.exists() || !file.isDirectory()) {
+            System.out.println("文件不存在或者不是文件夹");
+        }
+        System.out.println("\n" + file.getAbsolutePath() + "\\" + file.getName() + " 文件夹下");
+        File[] files = file.listFiles();
+        for (File f : files){
+            if (f.isDirectory()) {
+                showFiles(f);
+            } else if (f.getName().endsWith(".java")) {
+                System.out.println(f.getAbsolutePath() + "\\" + f.getName());
             }
         }
-        if (dist[n] == INF) return -1;
-        return dist[n];
     }
 }

@@ -72,7 +72,7 @@ public class SPFA {
             int curr = q.poll();
             st[curr] = false;
 
-            for (int i = he[curr]; i != -1; i = ne[i]) {
+                for (int i = he[curr]; i != -1; i = ne[i]) {
                 int j = e[i];
                 if (dist[j] > dist[curr] + w[i]) {
                     dist[j] = dist[curr] + w[i];
