@@ -54,8 +54,8 @@ public class Discretization {
             alls.add(l);
             alls.add(r);
         }
-        alls = alls.stream().distinct().collect(Collectors.toList());
-        Collections.sort(alls);
+        alls = alls.stream().distinct().sorted().collect(Collectors.toList());
+//        Collections.sort(alls);
         for (Pair item : add) {
             int x = find(item.x);
             a[x] += item.y;
